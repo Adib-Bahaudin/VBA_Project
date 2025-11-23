@@ -7,6 +7,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
+Option Explicit
+
 Private Sub copi_code()
 
     Dim Var1 As Shape
@@ -56,25 +58,72 @@ Sub Cetak_Pas_Foto()
         Exit Sub
     End If
     
-    ActiveDocument.Unit = cdrMillimeter         ' merubah satuan menjadi mm
-    
-    Dim f As form_4x6
+    ActiveDocument.Unit = cdrMillimeter
+    ActiveDocument.MasterPage.SetSize 148#, 210#
     
     If ActiveShape.SizeWidth = 40 And ActiveShape.SizeHeight = 60 Then
     
-        Set f = New form_4x6
-        f.Show
+        Dim En As form_4x6
+        Set En = New form_4x6
+        En.Show
         
-        If f.IsCancelled Then
+        If En.IsCancelled Then
             Exit Sub
         End If
         
-        Call Empat_Enam(f.Jumlah)
+        Call Empat_Enam(En.Jumlah)
+        
+    ElseIf ActiveShape.SizeWidth = 30 And ActiveShape.SizeHeight = 40 Then
+    
+        Dim Em As form_3x4
+        Set Em = New form_3x4
+        Em.Show
+        
+        If Em.IsCancelled Then
+            Exit Sub
+        End If
+        
+        Call Tiga_Empat(Em.Jumlah)
         
     Else
-        MsgBox "Ukuran Salah.", vbExclamation
+        MsgBox "Ukuran Pas Foto Tidak Valid.", vbExclamation
+    End If
+End Sub
+
+Private Sub Tiga_Empat(Jumlah As Integer)
+
+    Dim Var() As Shape
+    Dim i As Integer
+    
+    ReDim Var(1 To 4)
+    
+    Set Var(1) = ActiveShape
+    
+    For i = 2 To 4
+        Set Var(i) = Var(1).Duplicate
+    Next i
+    
+    ActiveDocument.Unit = cdrMillimeter
+    ActiveDocument.ReferencePoint = cdrCenter
+    
+    Dim Offset As Integer
+    Dim H_Offset As Integer
+    Offset = Var(1).SizeWidth + 2
+    H_Offset = Var(1).SizeHeight + 2
+    
+    If Jumlah >= 4 Then
+        Var(2).Move Offset, 0
+        Var(3).Move (Offset * 2), 0
+        Var(4).Move (Offset * 3), 0
     End If
     
+    ActiveDocument.ClearSelection
+    ActiveDocument.AddToSelection Var()
+    
+    Dim Varall As Shape
+    Set Varall = ActiveSelection.Group
+    
+    Varall.AlignAndDistribute 3, 3, 2, 0, False, 2
 End Sub
 
 Private Sub Empat_Enam(Jumlah As Integer)
@@ -93,6 +142,8 @@ Private Sub Empat_Enam(Jumlah As Integer)
     ActiveDocument.Unit = cdrMillimeter
     ActiveDocument.ReferencePoint = cdrCenter
     
+    Dim Offset As Integer
+    Dim H_Offset As Integer
     Offset = Var(1).SizeWidth + 2
     H_Offset = Var(1).SizeHeight + 2
     
