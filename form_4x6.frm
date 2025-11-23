@@ -22,37 +22,31 @@ Private Sub UserForm_Initialize()
 
     OptionButton1 = True
     
+    CommandButton2.Cancel = True
+    CommandButton1.Default = True
+    
     IsCancelled = True
     
 End Sub
 
-Private Sub CommandButton2_Click()
+Private Sub CommandButton1_Click()
     
     If OptionButton1.Value = True Then
-        Set Jumlah = 3
+        Jumlah = 3
     ElseIf OptionButton2.Value = True Then
-        Set Jumlah = 6
+        Jumlah = 6
     ElseIf OptionButton3.Value = True Then
-        Set Jumlah = 9
+        Jumlah = 9
+    End If
         
     IsCancelled = False
     Unload Me
     
 End Sub
 
-Private Sub CommandButton1_Click()
+Private Sub CommandButton2_Click()
 
     IsCancelled = True
     Unload Me
     
-End Sub
-
-Private Sub UserForm_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
-
-    If KeyAscii = 13 Then          ' 13 = ENTER
-        CommandButton2_Click
-    ElseIf KeyAscii = 27 Then      ' 27 = ESC
-        CommandButton1_Click
-    End If
-
 End Sub
