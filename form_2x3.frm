@@ -41,7 +41,23 @@ Private Sub CommandButton1_Click()
     If CheckBox1.Value = True Then
         Jumlah = 36
     Else
-        Jumlah = CInt(ComboBox1.Text)
+        Dim Inp As Integer
+        Inp = CInt(ComboBox1.Text)
+        If Inp <= 6 Then
+            Jumlah = 6
+        ElseIf Inp > 6 And Inp <= 12 Then
+            Jumlah = 12
+        ElseIf Inp > 12 And Inp <= 18 Then
+            Jumlah = 18
+        ElseIf Inp > 18 And Inp <= 24 Then
+            Jumlah = 24
+        ElseIf Inp > 24 And Inp <= 30 Then
+            Jumlah = 30
+        ElseIf Inp > 30 And Inp <= 36 Then
+            Jumlah = 36
+        Else
+            MsgBox "Error : Jumlah Tidak Valid.", vbExclamation
+        End If
     End If
         
     IsCancelled = False
